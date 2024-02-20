@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form, .search {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="number"], button {
+            padding: 10px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+ cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #bookList {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .book {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #eee;
+            background-color: #f9f9f9;
+        }
+    </style>
+
+</head>
+<body>
+    <div>
+    <h1>Library Management System</h1>
+    <div class="form">
+        <input type="text" id="Title" placeholder="Title">
+        <input type="text" id="Author" placeholder="Author">
+        <input type="number" id="Pages" placeholder="Pages">
+        <input type="text" id="Genre" placeholder="Genre">
+        <button onclick="addBooks()">Submit</button>
+    </div>
+    <div class="search">
+        <input type="text" id="Search" placeholder="Search">
+        <button onclick="searchBook()">Submit</button>
+    </div>
+        <div id="bookList"></div>
+    </div>
+    <script>
+        
+       let library=[];
+        function addBooks(){
+            let Title=document.getElementById('Title').value;
+            let Author=document.getElementById('Author').value;
+            let Pages=parseInt(document.getElementById('Pages').value);
+            let Genre=document.getElementById('Genre').value;
+            if (Title && Author && Pages && Genre) {
+                let book = {
+                    title: Title,
+                    author: Author,
+                    pages: Pages,
+                    genre: Genre
+                }
+                library.push(book);
+                displayBooks();
+            }
+            else {  
+                 alert('Please fill in all fields.');
+                }
+        }
+
+        function searchBook(){
+            let searchTitle = document.getElementById('Search').value.toLowerCase();
+            let searchResult = library.filter(book => book.title.toLowerCase().includes(searchTitle));
+            displayBooks(searchResult);
+
+        }
+
+        function displayBooks(books = library) {
+            let bookList = document.getElementById('bookList');
+            bookList.innerHTML = '';
+
+            books.forEach(book => {
+                let bookDiv = document.createElement('div');
+                bookDiv.classList.add('book');
+                bookDiv.innerHTML = `
+                    <h3>${book.title}</h3>
+                    <p>Author: ${book.author}</p>
+                    <p>Pages: ${book.pages}</p>
+                    <p>Genre: ${book.genre}</p>
+                `;
+                bookList.appendChild(bookDiv);
+            });
+        }
+
+    </script>
+</body>
+</html>
